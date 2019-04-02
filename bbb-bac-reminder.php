@@ -13,9 +13,10 @@ Domain Path: /languages
 if (! defined('ABSPATH')) exit;
 
 define('BBB_BAC_REMINDER_PATH', WP_PLUGIN_DIR . '/bbb-bac-reminder/');
+require_once BBB_BAC_REMINDER_PATH . 'class-bac-reminder.php';
 
 register_activation_hook(__FILE__, 'bminder_activation');
-function bminderh_activation()
+function bminder_activation()
 {
     if (!wp_next_scheduled('bminder_handler')) {
         wp_schedule_event(time(), 'hourly', 'bminder_handler');
@@ -27,7 +28,6 @@ function bminderh_activation()
 add_action('bminder_handler', 'bminder_daily', 10, 0);
 function bminder_daily()
 {
-    require_once BBB_BAC_REMINDER_PATH . 'class-bac-reminder.php';
     $bbbReminder = new BacReminder();
     $bbbReminder->init();
 
@@ -70,6 +70,6 @@ function bbb_reminder_options()
     }
 }
 
-// add settings
-// time for resending email
-// time for order status update
+$bbbReminder = new BacReminder();
+$bbbReminder->init();
+// var_dump($bbbReminder);
