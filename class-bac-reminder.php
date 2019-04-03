@@ -37,8 +37,8 @@ class BacReminder {
     
     public function handle_orders_to_update()
     {
-        $orders_to_update = new BacReminderUpdatestatus();
-        var_dump($orders_to_update);
+        $orders_to_update = new BacReminderUpdatestatus($this->date_to_update_status);
+        $orders_to_update->init();
     }
     
     public function handle_orders_to_resend_email()
