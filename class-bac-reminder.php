@@ -43,17 +43,8 @@ class BacReminder {
     
     public function handle_orders_to_resend_email()
     {
-        $orders_to_resend_emails = new BacReminderResendEmails();
-        var_dump($orders_to_resend_emails);
-        global $wpdb;
-        $this->orders_to_resend_email = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}posts WHERE post_status = 'wc-on-hold' AND DATE(post_date) < %s", $this->date_to_send_reminder));
-
+        $orders_to_resend_emails = new BacReminderResendEmails($this->date_to_send_reminder);
+        $orders_to_resend_emails->init();
     }
-
-    // resend email
-
-    // order_comment_if_resend
-
-    
 }
 
