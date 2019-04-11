@@ -16,6 +16,9 @@ define('BBB_BAC_REMINDER_PATH', WP_PLUGIN_DIR . '/bbb-bac-reminder/');
 require_once BBB_BAC_REMINDER_PATH . 'class-bac-reminder.php';
 
 register_activation_hook(__FILE__, 'bminder_activation');
+/**
+ * installs an daily cron job upon activation
+ */
 function bminder_activation()
 {
     if (!wp_next_scheduled('bminder_handler')) {
@@ -24,7 +27,9 @@ function bminder_activation()
     }
 
 }
-
+/**
+ * daily cron job function
+ */
 add_action('bminder_handler', 'bminder_daily', 10, 0);
 function bminder_daily()
 {
@@ -71,6 +76,9 @@ function bbb_reminder_options()
 }
 
 register_deactivation_hook(__FILE__, 'bbb_bac_reminder_deactivation');
+/**
+ * uninstalls / removes cron job upon deactivation
+ */
 function bbb_bac_reminder_deactivation()
 {
     error_log("cronjob cleared");
