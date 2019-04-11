@@ -2,7 +2,7 @@
 /*
 Plugin Name: BigBoxBerlin ÜberweisungsErinnerer
 Plugin URI: https://
-Description: BigBoxBerlin ÜberweisungsErinnerer
+Description: Dieses Plugin benutzt die eigen definierten Emails und sendet ein mal am Tag Erinnerungsmails, 
 Version: 0.1.0
 Author: Kevin Fechner
 Author URI: https://complete-webolutions.de
@@ -19,7 +19,7 @@ register_activation_hook(__FILE__, 'bminder_activation');
 function bminder_activation()
 {
     if (!wp_next_scheduled('bminder_handler')) {
-        wp_schedule_event(time(), 'hourly', 'bminder_handler');
+        wp_schedule_event(time(), 'daily', 'bminder_handler');
         error_log("next event:" . wp_next_scheduled('bminder_handler'));
     }
 
@@ -70,6 +70,13 @@ function bbb_reminder_options()
     }
 }
 
-$bbbReminder = new BacReminder();
-$bbbReminder->init();
+register_deactivation_hook(__FILE__, 'bbb_bac_reminder_deactivation');
+function bbb_bac_reminder_deactivation()
+{
+    error_log("cronjob cleared");
+    wp_clear_scheduled_hook('bminder_handler');
+}
+
+// $bbbReminder = new BacReminder();
+// $bbbReminder->init();
 // var_dump($bbbReminder);
