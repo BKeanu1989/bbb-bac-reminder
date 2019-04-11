@@ -1,6 +1,6 @@
 <?php
 
-class BacReminderUpdatestatus {
+class BacReminderUpdateStatus {
     public function __construct($date_to_update_status)
     {
         global $wpdb;
