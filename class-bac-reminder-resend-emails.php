@@ -61,7 +61,7 @@ class BacReminderResendEmails {
         foreach($wc_emails AS $wc_mail) {
             if ($wc_mail->id === $email_id) {
                 // correct email
-                // $wc_mail->trigger($order->get_id());
+                $wc_mail->trigger($order->get_id());
             }
         }
     }
@@ -73,7 +73,7 @@ class BacReminderResendEmails {
     public function add_comment($order)
     {
         $note = __('Erinnerungsmail gesendet', 'bbb-bac-reminder');
-        // $order->add_order_note($note);
+        $order->add_order_note($note);
     }
 
     /**
@@ -83,8 +83,8 @@ class BacReminderResendEmails {
     public function add_email_sent_meta($order) 
     {
         $order_id = $order->get_id();
-        // if (!add_post_meta($order_id, 'reminder_email_sent', 'yes', true)) {
-        //     update_post_meta($order_id, 'reminder_email_sent', 'yes');
-        // }
+        if (!add_post_meta($order_id, 'reminder_email_sent', 'yes', true)) {
+            update_post_meta($order_id, 'reminder_email_sent', 'yes');
+        }
     }
 }
