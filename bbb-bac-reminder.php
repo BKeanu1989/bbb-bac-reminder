@@ -2,7 +2,7 @@
 /*
 Plugin Name: BigBoxBerlin ÜberweisungsErinnerer
 Plugin URI: https://
-Description: Dieses Plugin benutzt die eigen definierten Emails und sendet ein mal am Tag Erinnerungsmails, 
+Description: Dieses Plugin benutzt die eigen definierten Emails und sendet bei Bedarf Emails. 
 Version: 0.1.0
 Author: Kevin Fechner
 Author URI: https://complete-webolutions.de
