@@ -22,6 +22,7 @@ class BacReminderUpdateStatus {
     public function init() 
     {
         foreach ($this->orders_to_update as $order_id) {
+            error_log("{$order_id} updated");
             $this->handle_main($order_id);
         }
     }
