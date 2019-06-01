@@ -23,6 +23,8 @@ function bminder_activation()
 {
     if (!wp_next_scheduled('bminder_handler')) {
         wp_schedule_event(time(), 'daily', 'bminder_handler');
+        // wp_schedule_event(time(), 'hourly', 'bminder_handler');
+
         error_log("next event:" . wp_next_scheduled('bminder_handler'));
     }
 
@@ -59,16 +61,16 @@ function bbb_bac_reminder_options()
 add_action('admin_post_bbb_reminder_options', 'bbb_reminder_options');
 function bbb_reminder_options()
 {
-    $days_to_send_reminder = isset($_POST['bminder_days_to_send_reminder']) ? (int) $_POST['bminder_days_to_send_reminder'] : 7;
-    $days_to_update_status = isset($_POST['bminder_days_to_update_status']) ? (int) $_POST['bminder_days_to_update_status'] : 14;
+    $days_to_send_reminder = isset($_POST['bminder_days_to_send_reminder']) ? (int) $_POST['bminder_days_to_send_reminder'] : 10;
+    // $days_to_update_status = isset($_POST['bminder_days_to_update_status']) ? (int) $_POST['bminder_days_to_update_status'] : 14;
 
     if (false === add_option('bminder_days_to_send_reminder', $days_to_send_reminder, '', 'no')) {
         update_option('bminder_days_to_send_reminder', $days_to_send_reminder, 'no');
     }
 
-    if (false === add_option('bminder_days_to_update_status', $days_to_update_status, '', 'no')) {
-        update_option('bminder_days_to_update_status', $days_to_update_status, 'no');
-    }
+    // if (false === add_option('bminder_days_to_update_status', $days_to_update_status, '', 'no')) {
+    //     update_option('bminder_days_to_update_status', $days_to_update_status, 'no');
+    // }
 
     if (wp_safe_redirect($_SERVER['HTTP_REFERER'])) {
         exit;
