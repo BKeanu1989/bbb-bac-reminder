@@ -1,6 +1,6 @@
 <?php
 require_once(BBB_BAC_REMINDER_PATH . 'class-bac-reminder-resend-emails.php');
-require_once(BBB_BAC_REMINDER_PATH . 'class-bac-reminder-update-status.php');
+// require_once(BBB_BAC_REMINDER_PATH . 'class-bac-reminder-update-status.php');
 
 trait Time_Helpers
 {
@@ -28,11 +28,11 @@ class BacReminder {
      */
     public function __construct() 
     {
-        $this->days_to_send_reminder = get_option('bminder_days_to_send_reminder', 7);
-        $this->days_to_update_status = get_option('bminder_days_to_update_status', 14);
+        $this->days_to_send_reminder = get_option('bminder_days_to_send_reminder', 10);
+        // $this->days_to_update_status = get_option('bminder_days_to_update_status', 14);
         $this->today = $this->modify_date();
         $this->date_to_send_reminder = $this->modify_date("-{$this->days_to_send_reminder} days");
-        $this->date_to_update_status = $this->modify_date("-{$this->days_to_update_status} days");
+        // $this->date_to_update_status = $this->modify_date("-{$this->days_to_update_status} days");
     }
     /**
      * inits main work
@@ -44,7 +44,7 @@ class BacReminder {
      */
     public function init() 
     {
-        $this->handle_orders_to_update();
+        // $this->handle_orders_to_update();
         $this->handle_orders_to_resend_email();
     }
 
@@ -54,8 +54,8 @@ class BacReminder {
      */
     public function handle_orders_to_update()
     {
-        $orders_to_update = new BacReminderUpdateStatus($this->date_to_update_status);
-        $orders_to_update->init();
+        // $orders_to_update = new BacReminderUpdateStatus($this->date_to_update_status);
+        // $orders_to_update->init();
     }
     /**
      * sends reminder emails
