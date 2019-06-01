@@ -11,8 +11,15 @@ class BacReminderResendEmails {
         global $wpdb;
 
         $this->date = $date;
-        $this->orders_to_resend_email = $wpdb->get_results($wpdb->prepare("SELECT ID FROM {$wpdb->prefix}posts WHERE DATE(post_date) < %s AND post_type = 'shop_order' AND post_status = 'wc-on-hold'", $this->date), ARRAY_A);
-        $this->orders_to_resend_email = array_column($this->orders_to_resend_email, 'ID');
+        $today_string = date('Y-m-d');
+        $this->todayObject = new DateTime($today_string);
+        // could also be realized with get_option (activation hook)... now hardcoding
+        $uploaded_date = '2019-05-09';
+        // testing
+        $this->orders_to_resend_email = $wpdb->get_col($wpdb->prepare("SELECT ID FROM {$wpdb->prefix}posts WHERE DATE(post_date) > %s AND post_type = 'shop_order' AND post_status = 'wc-on-hold'", '2019-04-01'));
+        // $this->orders_to_resend_email = $wpdb->get_col($wpdb->prepare("SELECT ID FROM {$wpdb->prefix}posts WHERE DATE(post_date) > %s AND post_type = 'shop_order' AND post_status = 'wc-on-hold'", $uploaded_date));
+
+        // $this->orders_to_resend_email = array_column($this->orders_to_resend_email, 'ID');
     }
     /**
      * inits the resend email handler
@@ -38,13 +45,38 @@ class BacReminderResendEmails {
      */
     public function handle_main($order_id)
     {
-        $order_id = (int) $order_id;
-        $_order = new WC_Order($order_id);
+        try {
+            $resend_email = false;
+            $order_id = (int) $order_id;
+            if (!$order_id) return;
+            $_order = wc_get_order($order_id);
 
-        $success = $this->resend_email($_order);
+            $order_items = $_order->get_items();
 
-        $this->add_comment($_order);
-        $this->add_email_sent_meta($_order);
+            foreach($order_items AS $item_id => $item) {
+                $_product = $item->get_product();
+                if ($_product->is_type('variation')) {
+                    $_product = wc_get_product($_product->get_parent_id());
+                }
+
+                $festivalStart_String = get_post_meta($_product->get_id(), '_festival_start', true);
+                $festivalStart_Object = new DateTime($festivalStart_String);
+
+                $festivalStart_Object->modify('-10 days');
+
+                if ($this->todayObject > $festivalStart_Object) {
+                    $resend_email = true;
+                }
+            }
+            
+            if ($resend_email) {
+                $success = $this->resend_email($_order);
+                $this->add_comment($_order);
+                $this->add_email_sent_meta($_order);
+            } 
+        } catch (Error $error) {
+            error_log(print_r($error, 1));
+        }
     }
 
     /**
