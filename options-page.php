@@ -3,8 +3,7 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-$bminder_days_to_send_reminder = get_option('bminder_days_to_send_reminder', 7);
-$bminder_days_to_update_status = get_option('bminder_days_to_update_status', 14);
+$bminder_days_to_send_reminder = get_option('bminder_days_to_send_reminder', 10);
 
 ?>
 
@@ -16,10 +15,10 @@ $bminder_days_to_update_status = get_option('bminder_days_to_update_status', 14)
         <input type="number" name="bminder_days_to_send_reminder" id="days_to_send_reminder" value="<?php echo $bminder_days_to_send_reminder; ?>">
     </div>
 
-    <div>
-        <label for="days_to_update_status"><?php _e('Tage bis zur automatischen Status Änderung:') ?></label>
-        <input type="number" name="bminder_days_to_update_status" id="days_to_update_status" value="<?php echo $bminder_days_to_update_status; ?>">
-    </div>
+    <!-- <div>
+        <label for="days_to_update_status"><?php // _e('Tage bis zur automatischen Status Änderung:') ?></label>
+        <input type="number" name="bminder_days_to_update_status" id="days_to_update_status" value="<?php // echo $bminder_days_to_update_status; ?>">
+    </div> -->
 
 
     <?php submit_button(); ?>
