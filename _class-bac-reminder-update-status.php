@@ -22,7 +22,7 @@ class BacReminderUpdateStatus {
     public function init() 
     {
         foreach ($this->orders_to_update as $order_id) {
-            error_log("{$order_id} updated");
+            // error_log("{$order_id} updated");
             $this->handle_main($order_id);
         }
     }
@@ -44,8 +44,8 @@ class BacReminderUpdateStatus {
      */
     public function update_status($_order)
     {
-        $note = __('Status via reminder plugin automatisch geändert', 'bbb-bac-reminder');
+        // $note = __('Status via reminder plugin automatisch geändert', 'bbb-bac-reminder');
 
-        return $_order->update_status('cancelled', $note);
+        // return $_order->update_status('cancelled', $note);
     }
 }
