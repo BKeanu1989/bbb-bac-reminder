@@ -47,6 +47,8 @@ class BacReminderResendEmails {
     {
         try {
             $resend_email = false;
+            $after_rock_festivals = false;
+            $after_rock_festival_String = '2019-06-11';
             $order_id = (int) $order_id;
             if (!$order_id) return;
             $_order = wc_get_order($order_id);
@@ -62,10 +64,17 @@ class BacReminderResendEmails {
                 $festivalStart_String = get_post_meta($_product->get_id(), '_festival_start', true);
                 $festivalStart_Object = new DateTime($festivalStart_String);
 
-                $festivalStart_Object->modify('-10 days');
-
-                if ($this->todayObject > $festivalStart_Object) {
-                    $resend_email = true;
+                // after rock festivals...
+                $after_rock_festival_Object = new DateTime($after_rock_festival_String);
+                if ($festivalStart_Object > $after_rock_festival_Object) {
+                    $after_rock_festivals = true;
+                }
+                
+                if ($after_rock_festivals) {
+                    $festivalStart_Object->modify('-10 days');
+                    if ($this->todayObject > $festivalStart_Object) {
+                        $resend_email = true;
+                    }
                 }
             }
             
